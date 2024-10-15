@@ -9,6 +9,7 @@ using Editors.ImportExport.Exporting.Presentation.DdsToMaterialPng;
 using Editors.ImportExport.Exporting.Presentation.DdsToNormalPng;
 using Editors.ImportExport.Exporting.Presentation.DdsToPng;
 using Editors.ImportExport.Exporting.Presentation.RmvToGltf;
+using Editors.ImportExport.Importing;
 using Microsoft.Extensions.DependencyInjection;
 using Shared.Core.DependencyInjection;
 using Shared.Core.PackFiles;
@@ -41,6 +42,8 @@ namespace Editors.ImportExport
             services.AddTransient<IExportFileContextMenuHelper, ExportFileContextMenuHelper>();
             services.AddTransient<DisplayExportFileToolCommand>();
 
+            services.AddTransient<IImportFileContextMenuHelper, ImportFileContextMenuHelper>();
+            services.AddTransient<DisplayImportFileToolCommand>();
         }
     }
 }
