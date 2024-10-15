@@ -8,8 +8,10 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
 
     public class DefaultContextMenuHandler : ContextMenuHandler
     {
-        public DefaultContextMenuHandler(PackFileService service, IToolFactory toolFactory, IUiCommandFactory uiCommandFactory, IExportFileContextMenuHelper exportFileContextMenuHelper) 
-            : base(service, toolFactory, uiCommandFactory, exportFileContextMenuHelper)
+        public DefaultContextMenuHandler(PackFileService service, IToolFactory toolFactory, IUiCommandFactory uiCommandFactory,
+            IExportFileContextMenuHelper exportFileContextMenuHelper, IImportFileContextMenuHelper importFileContextMenuHelper) 
+
+            : base(service, toolFactory, uiCommandFactory, exportFileContextMenuHelper, importFileContextMenuHelper)
         {
 
         }
@@ -49,10 +51,12 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
                     var createMenu = Additem(ContextItems.Create, newContextMenu);
                     Additem(ContextItems.CreateFolder, createMenu);
 
-                    AddSeperator(newContextMenu);
-                    var importSubMenu = Additem(ContextItems.Import, newContextMenu);
-                    Additem(ContextItems.Import3DModel, importSubMenu);
-                    AddSeperator(newContextMenu);
+                    // TODO: Maybe remove this command, it from old fbx code
+                    //AddSeperator(newContextMenu);
+                    //var importSubMenu = Additem(ContextItems.Import, newContextMenu);
+                    //Additem(ContextItems.Import3DModel, importSubMenu);
+                    //AddSeperator(newContextMenu);
+
 
                     Additem(ContextItems.Expand, newContextMenu);
                     Additem(ContextItems.Collapse, newContextMenu);
@@ -78,8 +82,9 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
 
                     AddSeperator(newContextMenu);
                     var importSubMenu = Additem(ContextItems.Import, newContextMenu);
-                    Additem(ContextItems.Import3DModel, importSubMenu);
-                    AddSeperator(newContextMenu);
+                   
+                    Additem(ContextItems.AdvancedImport, importSubMenu);
+                   
 
                     AddSeperator(newContextMenu);
                     Additem(ContextItems.Rename, newContextMenu);

@@ -63,6 +63,7 @@ namespace Shared.Core.PackFiles
             foreach (var fileRef in fileRefs)
             {
                 var fileSource = new FileSystemSource(fileRef.SystemPath);
+
                 var packfileName = fileRef.OverrideName;
                 if (packfileName == null)
                     packfileName = Path.GetFileName(fileRef.SystemPath);

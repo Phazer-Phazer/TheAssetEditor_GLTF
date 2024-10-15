@@ -33,21 +33,22 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
         public ICommand RenameNodeCommand { get; set; }
         public ICommand AddFilesFromDirectory { get; set; }
         public ICommand AddFilesCommand { get; set; }
-        public ICommand Import3DFileCommand { get; set; }
+
+        // `TODO: maybe delete this command, it is from old FBX code
+        //public ICommand Import3DFileCommand { get; set; }
         public ICommand CloseNodeCommand { get; set; }
         public ICommand DeleteCommand { get; set; }
         public ICommand SavePackFileCommand { get; set; }
         public ICommand CopyNodePathCommand { get; set; }
         public ICommand ExportToFolderCommand { get; set; }
         public ICommand AdvancedExportToFolderCommand { get; set; }
-        
+        public ICommand AdvancedImportFromDiskFolderCommand { get; set; }        
         public ICommand CopyToEditablePackCommand { get; set; }
         public ICommand DuplicateCommand { get; set; }
         public ICommand CreateFolderCommand { get; set; }
         public ICommand SetAsEditabelPackCommand { get; set; }
         public ICommand ExpandAllChildrenCommand { get; set; }
         public ICommand CollapseAllChildrenCommand { get; set; }
-
         public ICommand OpenPack_FileNotpadPluss_Command { get; set; }
         public ICommand OpenPackFile_HxD_Command { get; set; }
         public ICommand SavePackFileAsCommand { get; set; }
@@ -58,16 +59,21 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
         protected IToolFactory _toolFactory;
         private readonly IUiCommandFactory _uiCommandFactory;
         protected readonly IExportFileContextMenuHelper _exportFileContextMenuHelper;
+        protected readonly IImportFileContextMenuHelper _importFileContextMenuHelper;
 
-        public ContextMenuHandler(PackFileService pf, IToolFactory toolFactory, IUiCommandFactory uiCommandFactory, IExportFileContextMenuHelper exportFileContextMenuHelper)
+        public ContextMenuHandler(PackFileService pf, IToolFactory toolFactory, IUiCommandFactory uiCommandFactory, IExportFileContextMenuHelper exportFileContextMenuHelper, IImportFileContextMenuHelper importFileContextMenuHelper)
         {
             _packFileService = pf;
             _toolFactory = toolFactory;
             _uiCommandFactory = uiCommandFactory;
             _exportFileContextMenuHelper = exportFileContextMenuHelper;
+            _importFileContextMenuHelper = importFileContextMenuHelper;
             RenameNodeCommand = new RelayCommand(OnRenameNode);
             AddFilesCommand = new RelayCommand(OnAddFilesCommand);
-            Import3DFileCommand = new RelayCommand(OnImport3DModelCommand);
+
+            // TODO: maybe remove this command, it is from old FBX code
+            //Import3DFileCommand = new RelayCommand(OnImport3DModelCommand); 
+
             AddFilesFromDirectory = new RelayCommand(OnAddFilesFromDirectory);
             DuplicateCommand = new RelayCommand(DuplicateNode);
             CreateFolderCommand = new RelayCommand(CreateFolder);
@@ -82,6 +88,7 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
             CollapseAllChildrenCommand = new RelayCommand(CollapsAllChildren);
             ExportToFolderCommand = new RelayCommand(ExportToFolder);
             AdvancedExportToFolderCommand = new RelayCommand(AdvancedExportToFolder);
+            AdvancedImportFromDiskFolderCommand = new RelayCommand(AdvancedImportFromDiskFolder);
             
             OpenPack_FileNotpadPluss_Command = new RelayCommand(() => OpenPackFileUsing(@"C:\Program Files (x86)\Notepad++\notepad++.exe", _selectedNode.Item));
             OpenPackFile_HxD_Command = new RelayCommand(() => OpenPackFileUsing(@"C:\Program Files\HxD\HxD.exe", _selectedNode.Item));
@@ -150,9 +157,10 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
                 }
             }
         }
+
+        // TODO: Remove this/relatedd, it isn't it a vestige from the bad FBX code?
         void OnImport3DModelCommand()
         {
-
             _uiCommandFactory.Create<ImportAssetCommand>().Execute(_selectedNode.FileOwner, _selectedNode.GetFullPath());
         }
 
@@ -325,6 +333,11 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
             _exportFileContextMenuHelper.ShowDialog(_selectedNode.Item);
         }
 
+        void AdvancedImportFromDiskFolder()
+        {
+             _importFileContextMenuHelper.ShowDialog(_selectedNode);           
+        }
+
         void SaveSelfAndChildren(TreeNode node, string outputDirectory, string rootPath, ref int fileCounter)
         {
             if (node.NodeType == NodeType.Directory)
@@ -419,8 +432,11 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
                     return new ContextMenuItem() { Name = "Add" };
                 case ContextItems.Import:
                     return new ContextMenuItem() { Name = "Import" };
-                case ContextItems.Import3DModel:
-                    return new ContextMenuItem() { Name = "Import 3D Model File (Experimental)", Command = Import3DFileCommand };
+
+                // TODO: maybe remove this, it is from old FBX code
+                //case ContextItems.Import3DModel:
+                //    return new ContextMenuItem() { Name = "Import 3D Model File (Experimental)", Command = Import3DFileCommand };
+
                 case ContextItems.Create:
                     return new ContextMenuItem() { Name = "Create" };
                 case ContextItems.AddFiles:
@@ -443,6 +459,8 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
                     return new ContextMenuItem() { Name = "Export to disk", Command = ExportToFolderCommand };
                 case ContextItems.AdvancedExport:
                     return new ContextMenuItem() { Name = "Advanced Export", Command = AdvancedExportToFolderCommand };
+                case ContextItems.AdvancedImport:
+                    return new ContextMenuItem() { Name = "Advanced Import", Command = AdvancedImportFromDiskFolderCommand };
                 case ContextItems.Rename:
                     return new ContextMenuItem() { Name = "Rename", Command = RenameNodeCommand }; ;
                 case ContextItems.SetAsEditabelPack:
@@ -471,7 +489,7 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
             Add,
             Import,
             AddFiles,
-            Import3DModel,
+            //Import3DModel,
             AddDirectory,
             CopyToEditablePack,
             Duplicate,
@@ -483,6 +501,7 @@ namespace Shared.Ui.BaseDialogs.PackFileBrowser
             CopyFullPath,
             ExportToFolder,
             AdvancedExport,
+            AdvancedImport,
             Rename,
             SetAsEditabelPack,
 
