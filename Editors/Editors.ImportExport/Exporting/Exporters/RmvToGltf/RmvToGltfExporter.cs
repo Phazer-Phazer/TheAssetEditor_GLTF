@@ -20,6 +20,7 @@ using System.ComponentModel;
 using Microsoft.Xna.Framework.Graphics;
 using Shared.GameFormats.RigidModel.Vertex;
 using Shared.GameFormats.RigidModel.Types;
+using Editors.ImportExport.Exporting.Exporters.GltfSkeleton;
 
 namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
 {
@@ -118,11 +119,20 @@ namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
             var invMatrixFilePath = _packFileService.GetFullPath(_packFileService.FindFile(invMatrixSearchList[0]));
             var invMatrixPackFile = _packFileService.FindFile(invMatrixFilePath);
 
-            var animFile = AnimationFile.Create(skeletonPackFile);
+            var animSkeletonFile = AnimationFile.Create(skeletonPackFile);
             var invMatrixFile = AnimInvMatrixFile.Create(invMatrixPackFile.DataSource.ReadDataAsChunk());
-            var gltfSkeletonBindings = SkeletonExporter.CreateSkeletonFromGameSkeleton(animFile, invMatrixFile, model);
+            var gltfSkeletonBindings = SkeletonExporter.CreateSkeletonFromGameSkeleton(animSkeletonFile, invMatrixFile, model);
 
-            return gltfSkeletonBindings;
+            //var animPackFile = _packFileService.FindFile(@"animations\battle\humanoid01\2handed_hammer\combat_idles\hu1_2hh_combat_idle_02.anim");
+
+            //var animAnimationFile = AnimationFile.Create(animPackFile);
+            
+            var nodeData = GktfSkeletonBuilder.Build(model, animSkeletonFile);
+            //var animbuilder = new GltfAnimationBuilder(nodeData, animAnimationFile);
+
+
+
+            return nodeData.SkeletonData;
         }
 
         public static MeshBuilder<VertexPositionNormalTangent, VertexTexture1, VertexJoints4> GenerateMesh(RmvModel rmvMesh, MaterialBuilder material, bool hasSkeleton)

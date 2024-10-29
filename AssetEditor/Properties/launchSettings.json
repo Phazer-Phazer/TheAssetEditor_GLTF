@@ -33,6 +33,11 @@
       "commandName": "Project",
       "commandLineArgs": "-devcfg AnimTransfer_DwarfArcher",
       "nativeDebugging": false
+    },
+    "AE-KitBash-Export": {
+      "commandName": "Project",
+      "commandLineArgs": "-devcfg Kitbash_Export",
+      "nativeDebugging": false
     }
   }
 }
