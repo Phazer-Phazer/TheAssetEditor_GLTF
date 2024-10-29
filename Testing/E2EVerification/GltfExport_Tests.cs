@@ -74,7 +74,7 @@ namespace E2EVerification
             var path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Total War WARHAMMER III\\data\\normal_test.pack";
             var PackFile = runner.LoadPackFile(path);
             var modelFile = runner.PackFileService.FindFile(_packFile01);
-            runner.DdsToPngExporterRepos.Export("C:/franz/rigidExportConvert", modelFile, new RmvToGltfExporterSettings(runner.PackFileService.FindFile(_packFile01), "C:/franz/rigidExportConvert", true, true, true, true));
+            runner.DdsToPngExporterRepos.Export("C:/franz/rigidExportConvert", modelFile, new RmvToGltfExporterSettings(new List<PackFile>() { runner.PackFileService.FindFile(_packFile01) }, new List<PackFile>(),  "C:/franz/rigidExportConvert", true, true, true, true));
             var foundFile1 = ("C:/franz/rigidExportConvert/" + "emp_karl_franz_body_01_base_colour.png");
             var foundFile2 = ("C:/franz/rigidExportConvert/" + "emp_karl_franz_body_01_material_map.png");
             var foundFile3 = ("C:/franz/rigidExportConvert/" + "emp_karl_franz_body_01_normal.png");
@@ -95,7 +95,7 @@ namespace E2EVerification
             var path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Total War WARHAMMER III\\data\\normal_test.pack";
             var PackFile = runner.LoadPackFile(path);
             var modelFile = runner.PackFileService.FindFile(_packFile01);
-            runner.DdsToPngExporterRepos.Export("C:/franz/rigidExportDoNotConvert", modelFile, new RmvToGltfExporterSettings(runner.PackFileService.FindFile(_packFile01), "C:/franz/rigidExportDoNotConvert", true, false, false, true));
+            runner.DdsToPngExporterRepos.Export("C:/franz/rigidExportDoNotConvert", modelFile, new RmvToGltfExporterSettings(new List<PackFile>() { runner.PackFileService.FindFile(_packFile01) }, new List<PackFile>(),  "C:/franz/rigidExportDoNotConvert", true, false, false, true));
             var foundFile1 = ("C:/franz/rigidExportDoNotConvert/" + "emp_karl_franz_body_01_base_colour.png");
             var foundFile2 = ("C:/franz/rigidExportDoNotConvert/" + "emp_karl_franz_body_01_material_map.png");
             var foundFile3 = ("C:/franz/rigidExportDoNotConvert/" + "emp_karl_franz_body_01_normal.png");
@@ -116,7 +116,7 @@ namespace E2EVerification
             var path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Total War WARHAMMER III\\data\\normal_test.pack";
             var PackFile = runner.LoadPackFile(path);
             var modelFile = runner.PackFileService.FindFile(_packFile02);
-            runner.DdsToPngExporterRepos.Export("C:/franz/staticMeshConvert", modelFile, new RmvToGltfExporterSettings(runner.PackFileService.FindFile(_packFile01), "C:/franz/staticMeshConvert", true, true, true, true));
+            runner.DdsToPngExporterRepos.Export("C:/franz/staticMeshConvert", modelFile, new RmvToGltfExporterSettings(new List<PackFile>() { runner.PackFileService.FindFile(_packFile01) }, new List<PackFile>(), "C:/franz/staticMeshConvert", true, true, true, true));
             var foundFile1 = ("C:/franz/staticMeshConvert/" + "emp_karl_franz_hammer_2h_01_base_colour.png");
             var foundFile2 = ("C:/franz/staticMeshConvert/" + "emp_karl_franz_hammer_2h_01_material_map.png");
             var foundFile3 = ("C:/franz/staticMeshConvert/" + "emp_karl_franz_hammer_2h_01_normal.png");
@@ -131,7 +131,7 @@ namespace E2EVerification
             var path = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Total War WARHAMMER III\\data\\normal_test.pack";
             var PackFile = runner.LoadPackFile(path);
             var modelFile = runner.PackFileService.FindFile(_packFile02);
-            runner.DdsToPngExporterRepos.Export("C:/franz/staticMeshDoNotConvert", modelFile, new RmvToGltfExporterSettings(runner.PackFileService.FindFile(_packFile01), "C:/franz/staticMeshDoNotConvert", true, false, false, true));
+            runner.DdsToPngExporterRepos.Export("C:/franz/staticMeshDoNotConvert", modelFile, new RmvToGltfExporterSettings(new List<PackFile>() { runner.PackFileService.FindFile(_packFile01) }, new List<PackFile>(), "C:/franz/staticMeshDoNotConvert", true, false, false, true));
             var foundFile1 = ("C:/franz/staticMeshDoNotConvert/" + "emp_karl_franz_hammer_2h_01_base_colour.png");
             var foundFile2 = ("C:/franz/staticMeshDoNotConvert/" + "emp_karl_franz_hammer_2h_01_material_map.png");
             var foundFile3 = ("C:/franz/staticMeshDoNotConvert/" + "emp_karl_franz_hammer_2h_01_normal.png");

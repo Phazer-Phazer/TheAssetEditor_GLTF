@@ -25,7 +25,8 @@ using Editors.ImportExport.Exporting.Exporters.GltfSkeleton;
 namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
 {
     public record RmvToGltfExporterSettings(
-        PackFile InputFile,
+        List<PackFile> InputMeshFile,
+        List<PackFile> InputAnimationFile,
         string OutputPath,
         bool ExportTextures,
         bool ConvertMaterialTextureToBlender,
@@ -60,14 +61,14 @@ namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
 
         public void Export(RmvToGltfExporterSettings settings)
         {
-            var rmv2 = new ModelFactory().Load(settings.InputFile.DataSource.ReadData());
+            var rmv2 = new ModelFactory().Load(settings.InputMeshFile[0].DataSource.ReadData());
             var lodLevel = rmv2.ModelList.First();
             var hasSkeleton = (rmv2.Header.SkeletonName != "");
             var gltfSkeleton = new List<(Node, Matrix4x4)>();
             var model = ModelRoot.CreateModel();
             if (hasSkeleton)
             {
-                gltfSkeleton = GenerateSkeleton(rmv2, model);
+                gltfSkeleton = GenerateSkeleton(rmv2, model, settings);
             }
             List<Mesh> meshes = new List<Mesh>();
             foreach (var rmvMesh in lodLevel)
@@ -81,7 +82,7 @@ namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
                 }
                 else
                 {
-                    gltfMaterial = BuildFakeMaterialPerMesh(rmvMesh, settings.InputFile);
+                    gltfMaterial = BuildFakeMaterialPerMesh(rmvMesh, settings.InputMeshFile[0]);
                 }
                 var mesh = model.CreateMesh(GenerateMesh(rmvMesh, gltfMaterial, hasSkeleton));
                 meshes.Add(mesh);
@@ -104,10 +105,10 @@ namespace Editors.ImportExport.Exporting.Exporters.RmvToGltf
                     scene.CreateNode(mesh.Name).WithMesh(mesh);
                 }
             }
-            model.SaveGLTF(settings.OutputPath + Path.GetFileNameWithoutExtension(settings.InputFile.Name) + ".gltf");
+            model.SaveGLTF(settings.OutputPath + Path.GetFileNameWithoutExtension(settings.InputMeshFile[0].Name) + ".gltf");
         }
 
-        internal List<(Node, Matrix4x4)> GenerateSkeleton(RmvFile rmv2, ModelRoot model)
+        internal List<(Node, Matrix4x4)> GenerateSkeleton(RmvFile rmv2, ModelRoot model, RmvToGltfExporterSettings settings)
         {
             var skeletonName = rmv2.Header.SkeletonName + ".anim";
             var skeletonSearchList = _packFileService.SearchForFile(skeletonName);
