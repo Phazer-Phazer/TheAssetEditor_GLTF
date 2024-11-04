@@ -1,9 +1,4 @@
-﻿//using Shared.Ui.Events.UiCommands;
-//using static Shared.GameFormats.WWise.Hirc.Shared.AkDecisionTree;
-//using MeshImportExport;
-//using Shared.Ui.BaseDialogs.WindowHandling;
-//using System.Numerics;
-using Editors.ImportExport.Exporting.Exporters.RmvToGltf;
+﻿using Editors.ImportExport.Exporting.Exporters.RmvToGltf;
 using Editors.Shared.DevConfig.Base;
 using Shared.Core.PackFiles;
 using Shared.Core.PackFiles.Models;
@@ -27,10 +22,11 @@ namespace Editors.Shared.DevConfig.Configs
         public void OpenFileOnLoad()
         {
             var meshPackFile = _packFileService.FindFile(@"variantmeshes\wh_variantmodels\hu1\emp\emp_karl_franz\emp_karl_franz.rigid_model_v2");
-            var animPackFile = _packFileService.FindFile(@"animations\battle\humanoid01\sword_and_shield\locomotion\hu1_sws_walk_01.anim");
+            var animPackFile = _packFileService.FindFile(@"animations\battle\humanoid01\subset\skeleton_warriors\sword_and_shield\combat_idles\hu1_sk_sws_combat_idle_03.anim");
 
+            // obtains user's document folder 
             var documentPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            var destPath = $"{documentPath}\\AE_Export\\";
+            var destPath = $"{documentPath}\\AE_Export_Handedness\\";
 
             // clear folder, if it exists
             DirectoryInfo dir = new DirectoryInfo(destPath);
